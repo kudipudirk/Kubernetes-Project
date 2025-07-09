@@ -29,9 +29,9 @@ spec:
       containers:
       - name: backend
         image: kudipudirk/backend
-      envFrom:
-      - configMapRef:
-        name: backend
+        envFrom:
+        - configMapRef:
+          name: backend
 
 ---
 kind: Service
