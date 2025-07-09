@@ -1,0 +1,49 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backend
+  namespace: expense
+data:
+  DB_HOST: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: project
+  labels:
+    app: backend
+    tier: connection
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+      tier: connection
+  template:
+    metadata:
+      labels:
+        app: backend
+        tier: connection
+    spec:
+      containers:
+      - name: backend
+        image: kudipudirk/backend
+      envFrom:
+      - configMapRef:
+        name: backend
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+  namespace: project
+spec:
+  selector: # labels are used as selectors
+    app: backend
+    tier: connection
+  ports:
+  - protocol: TCP
+    port: 8080 # service port
+    targetPort: 8080
