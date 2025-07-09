@@ -31,7 +31,7 @@ spec:
         image: kudipudirk/backend
         envFrom:
         - configMapRef:
-          name: backend
+            name: backend
 
 ---
 kind: Service
